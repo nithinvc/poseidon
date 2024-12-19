@@ -32,26 +32,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from transformers import (
-    Swinv2PreTrainedModel,
-    PretrainedConfig,
-)
-from transformers.models.swinv2.modeling_swinv2 import (
-    Swinv2EncoderOutput,
-    Swinv2Attention,
-    Swinv2DropPath,
-    Swinv2Intermediate,
-    Swinv2Output,
-    window_reverse,
-    window_partition,
-)
-from transformers.utils import ModelOutput
+import collections
+import math
 from dataclasses import dataclass
+from typing import List, Optional, Tuple, Union
+
 import torch
 from torch import nn
-from typing import Optional, Union, Tuple, List
-import math
-import collections
+from transformers import (
+    PretrainedConfig,
+    Swinv2PreTrainedModel,
+)
+from transformers.models.swinv2.modeling_swinv2 import (
+    Swinv2Attention,
+    Swinv2DropPath,
+    Swinv2EncoderOutput,
+    Swinv2Intermediate,
+    Swinv2Output,
+    window_partition,
+    window_reverse,
+)
+from transformers.utils import ModelOutput
 
 
 @dataclass
@@ -82,7 +83,7 @@ class ScOTConfig(PretrainedConfig):
         embed_dim=96,
         depths=[2, 2, 6, 2],
         num_heads=[3, 6, 12, 24],
-        skip_connections=[True, True, True],
+        skip_connections=[True, True, True, False],
         window_size=7,
         mlp_ratio=4.0,
         qkv_bias=True,
